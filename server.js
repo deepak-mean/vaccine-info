@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const states = require("./constants/states");
 const https = require('https');
-const fast2sms = require('fast-two-sms');
+// const fast2sms = require('fast-two-sms');
 const moment = require('moment');
 
 const app = express();
@@ -152,30 +152,56 @@ function activate(options){
 	        }
 		}
 		// console.log("\n\n\n datewiseData",JSON.stringify(datewiseData));
+		var todayDate = moment(today).format("DD-MM-YYYY");
+		var clearTimer = false;
+		if(datewiseData && datewiseData[todayDate] && datewiseData[todayDate]["availableCenters"] && datewiseData[todayDate]["availableCenters"] > 0 ){
+    		var message = 'URGENT: Vaccine Slot are now available in your district for ' + todayDate;
+    		message += ".\nTotal " + datewiseData[todayDate]["shots"] + " slots available at " + datewiseData[todayDate]["availableCenters"] + " centers.";
+    		message += ".\nPlease visit https://selfregistration.cowin.gov.in/ to book your slot right now.";
+    		console.log("\n\n..message",message);
 
-		if(targetDate){
+
+    		console.log("HERE YOU KNOW YOU HAVE SLOT AVAILABLE FOR TODAY");
+    		// SET YOUR ACTION HERE FOR NOTIFICATION 
+    		clearTimer = true;
+
+    	} else if(targetDate){
         	if(datewiseData && datewiseData[targetDate] && datewiseData[targetDate]["availableCenters"] && datewiseData[targetDate]["availableCenters"] > 0 ){
         		var message = 'URGENT: Vaccine Slot are now available in your district for ' + targetDate;
         		message += ".\nTotal " + datewiseData[targetDate]["shots"] + " slots available at " + datewiseData[targetDate]["availableCenters"] + " centers.";
         		message += ".\nPlease visit https://selfregistration.cowin.gov.in/ to book your slot right now.";
         		console.log("\n\n..message",message);
-        		var apiOptions = {authorization : process.env.API_KEY , message :  message,  numbers : mobileNumbers} 
+
+
+        		console.log("HERE YOU KNOW YOU HAVE SLOT AVAILABLE FOR TOMORROW");
+        		// SET YOUR ACTION HERE FOR NOTIFICATION 
+        		clearTimer = true;
+
+
+
+        		// var apiOptions = {authorization : process.env.API_KEY , message :  message,  numbers : mobileNumbers} 
 
 				// fast2sms.sendMessage(apiOptions).then(response=>{
-			 //      	console.log("fast2sms",response);
-			 //      	clearInterval(options.callback);
-			 //      	// res.send("Done");
-			 //    })
+				//     console.log("fast2sms",response);
+			 	//     clearInterval(options.callback);
+			 	//     // res.send("Done");
+			 	// })
 
 
-			 // sent your action here 
         	}
+        }
+
+
+        if(clearTimer){
+        	// clear the timer
+        	clearInterval(options.callback);
         }
 
 
 	})
 }
-// activate();
+
+// Run this function 
 var interval1 = setInterval(function(){
 	// params 
 	// id - district id - 650 for Noida/Gautam Budh Nagar
@@ -183,4 +209,4 @@ var interval1 = setInterval(function(){
 	// activate({id: 200, mobileNumbers : ['8570008456'], callback: interval1});
 }, 1000*60*5);
 
-app.listen(8005, () => console.log('Example app is listening on port 3000.'));
+app.listen(8005, () => console.log('Example app is listening on port 8005.'));
