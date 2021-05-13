@@ -1,0 +1,65 @@
+<div class="container-fluid">
+	<div class="row">Search for your nearest vaccination center and slots availability</div>
+	<div class="row">
+		<div class="col">
+			<select class="custom-select" ng-model="options.stateId">
+			  <option selected>Select State</option>
+			  <option value="1">One</option>
+			</select>
+		</div>
+		<div class="col">Select District</div>
+	</div>
+</div>
+
+
+
+<!-- <div class="data-container container-fluid">
+	<div class="row">
+		<h4 class="col-8"><strong>Vaccine Slot Information for {{districtData.name}}</strong></h4>
+		<span class="col-2"></span>
+		<span class="col-2" ng-if="lastDataFetched">
+			Last refresh : {{getDiff(lastDataFetched)}}
+		</span>
+	</div>
+	<div class="row bg-dark text-white">
+		<div class="meta">Date</div>
+		<div class="col">
+			<div class="row">
+				<div class="col">Center</div>
+				<div class="col">Vaccine</div>
+				<div class="col">Status</div>
+				<div class="col">Available Vaccines</div>
+				<div class="col">Time Slots</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row" ng-repeat="(date, info) in data">
+		<div class="meta">
+			<h4><strong>{{date}}</strong></h4>
+			<span><strong>Total Centers:</strong> {{info.centers}}</span><br/>
+			<span><strong>Available Dose:</strong> {{info.shots}}</span>
+		</div>
+		<div class="col">
+			<div class="row" ng-repeat="center in info.data">
+				<div class="col">
+					<strong>{{center.name}}</strong><br/>
+					<span>{{center.address}}</span>
+				</div>
+				<div class="col">
+					<strong>{{center.vaccine}}</strong>
+				</div>
+				<div class="col">
+					<span class="booked" ng-if="center.available_capacity == 0">Booked</span>
+					<span class="available" ng-if="center.available_capacity > 0">Available</span>
+				</div>
+				<div class="col">
+					<strong>{{center.available_capacity == 0 ? '--' : center.available_capacity}}</strong>
+				</div>
+				<div class="col">
+					<strong>{{center.available_capacity == 0 ? '--' : center.slots}}</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
