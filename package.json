@@ -10,11 +10,15 @@
     "angular-loader": "^1.7.5",
     "angular-route": "^1.7.5",
     "angular-ui-bootstrap": "^2.5.6",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "fast-two-sms": "^3.0.0",
     "html5-boilerplate": "0.0.1",
-    "moment": "^2.29.1"
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.6"
   },
   "devDependencies": {
     "angular-mocks": "^1.7.5",

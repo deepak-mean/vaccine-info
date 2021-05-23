@@ -1,65 +1,59 @@
-<div class="container-fluid">
-	<div class="row">Search for your nearest vaccination center and slots availability</div>
-	<div class="row">
-		<div class="col">
-			<select class="custom-select" ng-model="options.stateId">
-			  <option selected>Select State</option>
-			  <option value="1">One</option>
-			</select>
-		</div>
-		<div class="col">Select District</div>
+<div class="container-main" layout='column' layout-align="center center">
+	<div class="header">
+		CoWIN Vaccine Slot Notifier
+	</div>
+	<div class="description" layout='row' layout-align="center center">Search for your nearest vaccination center using State and District Names</div>
+	<div class="filters" layout='row' layout-xs="column" layout-align="center center">
+		<md-input-container>
+          <label>Select State</label>
+          <md-select ng-model="local.selectedState" ng-change="selectState();">
+            <md-option><em>None</em></md-option>
+            <md-option  ng-repeat="state in metaData.states" ng-value="{{state.state_id}}" >
+              {{state.state_name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container >
+          <label>Select District</label>
+          <md-select ng-model="local.selectedDistrict" ng-disabled="!local.selectedState || options.loadingDistricts">
+            <md-option><em>None</em></md-option>
+            <md-option  ng-repeat="d in metaData.districts.districts" ng-value="{{d.district_id}}">
+              {{d.district_name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+        <div class="actions">
+	        <md-button class="md-raised md-primary" ng-disabled="!local.selectedState || !local.selectedDistrict" ng-click="fetchSlotsData();">Submit</md-button>
+	        <md-button class="md-raised md-accent" ng-if="local.selectedState && local.selectedDistrict" ng-click="subscribe();">Subscribe</md-button>
+	    </div>
+	</div>
+
+	<div class="table-data">
+		<mdt-table table-card="{title: 'Nutritions'}" > 
+			<mdt-header-row>
+		      <mdt-column align-rule="left"><span>Dessert (100g serving)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Calories</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Fat (g)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Carbs (g)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Protein (g)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Sodium (mg)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Calcium (%)</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Iron (%)</span></mdt-column>
+		    </mdt-header-row>
+
+		    <mdt-row 
+             ng-repeat="nutrition in nutritionList"
+             table-row-id="nutrition.id">
+		      <mdt-cell><span>{{nutrition.name}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.calories}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.fat}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.carbs}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.protein}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.sodium}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.calcium}}</span></mdt-cell>
+		      <mdt-cell><span>{{nutrition.iron}}</span></mdt-cell>
+		    </mdt-row>
+	  	</mdt-table>
 	</div>
 </div>
-
-
-
-<!-- <div class="data-container container-fluid">
-	<div class="row">
-		<h4 class="col-8"><strong>Vaccine Slot Information for {{districtData.name}}</strong></h4>
-		<span class="col-2"></span>
-		<span class="col-2" ng-if="lastDataFetched">
-			Last refresh : {{getDiff(lastDataFetched)}}
-		</span>
-	</div>
-	<div class="row bg-dark text-white">
-		<div class="meta">Date</div>
-		<div class="col">
-			<div class="row">
-				<div class="col">Center</div>
-				<div class="col">Vaccine</div>
-				<div class="col">Status</div>
-				<div class="col">Available Vaccines</div>
-				<div class="col">Time Slots</div>
-			</div>
-		</div>
-
-	</div>
-	<div class="row" ng-repeat="(date, info) in data">
-		<div class="meta">
-			<h4><strong>{{date}}</strong></h4>
-			<span><strong>Total Centers:</strong> {{info.centers}}</span><br/>
-			<span><strong>Available Dose:</strong> {{info.shots}}</span>
-		</div>
-		<div class="col">
-			<div class="row" ng-repeat="center in info.data">
-				<div class="col">
-					<strong>{{center.name}}</strong><br/>
-					<span>{{center.address}}</span>
-				</div>
-				<div class="col">
-					<strong>{{center.vaccine}}</strong>
-				</div>
-				<div class="col">
-					<span class="booked" ng-if="center.available_capacity == 0">Booked</span>
-					<span class="available" ng-if="center.available_capacity > 0">Available</span>
-				</div>
-				<div class="col">
-					<strong>{{center.available_capacity == 0 ? '--' : center.available_capacity}}</strong>
-				</div>
-				<div class="col">
-					<strong>{{center.available_capacity == 0 ? '--' : center.slots}}</strong>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->

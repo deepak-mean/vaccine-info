@@ -2,13 +2,59 @@ const express = require('express');
 const path = require('path');
 const states = require("./constants/states");
 const https = require('https');
-// const fast2sms = require('fast-two-sms');
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+const cookieParser = require('cookie-parser')
+const cookie = require('cookie')
+const multipart = require('connect-multiparty');// const fast2sms = require('fast-two-sms');
 const moment = require('moment');
-
+require('dotenv').config();
+const dbConnection = require("./modules/db");
+dbConnection.initializeConnection();
+const userService = require("./modules/users/userService");
 const app = express();
 
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = process.env.MONGO_URL;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// client.connect(err => {
+// 	console.log("..mongo connect", err);
+//   	const collection = client.db("projectVSN").collection("users");
+// 	// perform actions on the collection object
+// 	collection.find({}).toArray(function(err, docs) {
+	    
+// 	    console.log('Found the following records');
+// 	    console.log(docs);
+// 	    // callback(docs);
+// 	});
+// 	// collection.insertMany([{ a: 1 }, { a: 2 }, { a: 3 }], function(err, result) {
+// 	// 	    console.log('Inserted 3 documents into the collection', err, result);
+// 	// })
+//   	// client.close();
+// })
 
-require('dotenv').config();
+
+
+function getErrorMessageObj(message){
+	return {
+		status : -1,
+		error: message
+	}
+}
+
+function getSuccessObj(message, data){
+	return {
+		status : 1, 
+		data: data, 
+		message: message
+	}
+}
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ limit: '2000mb',extended: true })); 
+app.use(multipart()); 
+app.use(methodOverride());
+app.use(cookieParser());
+
 app.use((req, res, next) => {
   // console.log('Time: ', Date.now());
   next();
@@ -58,27 +104,8 @@ app.get('/getDistricts/:state_id', (req, res) => {
 });
 
 
-function fetchSlotData(districtId, date, cb){
-	var url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=' + districtId + '&date=' + date;
-	https.get(url, (resp) => {
-	 	let data = '';
 
-		// A chunk of data has been received.
-	  	resp.on('data', (chunk) => {
-	    	data += chunk;
-	  	});
 
-	  	// The whole response has been received. Print out the result.
-  		resp.on('end', () => {
-	    	// console.log("response..",data);
-	    	cb({data: data, status : 1});
-	  	});
-
-	}).on("error", (err) => {
-	  console.log("Error: " + err.message);
-	  cb({status: -1, error: err});
-	});
-}
 app.post("/getSlotInformation/:districtId/:date", (req, res) =>{
 	var data = req.params;
 	var date = data.date;
@@ -100,6 +127,49 @@ app.get('/sendMessage', (req, res) => {
       res.send("Done");
     })
 });
+
+
+app.post('/users', (req, res) =>{
+	var dataObj = req.body;
+	console.log("[AddUserAPI]--", dataObj);
+	if(dataObj && dataObj.mobile && dataObj.district_id){
+		userService.addNewUser(dataObj, (err, success)=> {
+			var response;
+			if(err){
+				response = getErrorMessageObj(err);
+			} else {
+				response = getSuccessObj("User added successfully", success);
+			}
+			res.send(response);
+		});		
+	} else {
+		res.send(getErrorMessageObj("Mobile Number and District are required."));
+	}
+});
+
+
+
+function fetchSlotData(districtId, date, cb){
+	var url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=' + districtId + '&date=' + date;
+	https.get(url, (resp) => {
+	 	let data = '';
+
+		// A chunk of data has been received.
+	  	resp.on('data', (chunk) => {
+	    	data += chunk;
+	  	});
+
+	  	// The whole response has been received. Print out the result.
+  		resp.on('end', () => {
+	    	// console.log("response..",data);
+	    	cb({data: data, status : 1});
+	  	});
+
+	}).on("error", (err) => {
+	  console.log("Error: " + err.message);
+	  cb({status: -1, error: err});
+	});
+}
 
 function activate(options){
 	var districtsId = options.id;
