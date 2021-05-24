@@ -1,37 +1,26 @@
-/* app css stylesheet */
-
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.container-main {
+  padding: 5rem;
 }
 
-.menu:before {
-  content: "[";
+.header {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  background: black;
+  color: white;
+  padding-left: 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
-.menu:after {
-  content: "]";
+.filters md-input-container {
+  width: 250px;
 }
 
-.menu > li {
-  display: inline;
-}
-
-.menu > li + li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.data-container {
-font-size: 12px;
-}
-
-.data-container .meta {
-	width: 200px;
-}
-
-.data-container .row {
-	padding: 1rem;
+.description {
+  padding: 1rem;
+  font-weight: bold;
 }
