@@ -194,7 +194,7 @@ angular.module('myApp.list', ['ngRoute'])
 
     function fetchDistricts(){
         $scope.options.loadingDistricts = true;
-        http.get('/getDistricts/' + $scope.local.selectedState).then(function(res){
+        http.get('https://cdn-api.co-vin.in/api/v2/admin/location/districts/' + $scope.local.selectedState).then(function(res){
             $scope.options.loadingDistricts = false;
             if(res.status == 200){                      
                 
@@ -206,6 +206,8 @@ angular.module('myApp.list', ['ngRoute'])
                         districts = res.data.data;
                     }
                     
+                } else if(res.data && res.data.districts){
+                    districts = res.data.districts;
                 }
                 console.log("..districtData", districts); 
                 $scope.metaData.districts = districts;
@@ -226,7 +228,7 @@ angular.module('myApp.list', ['ngRoute'])
     $scope.goToCowin = function(){
         window.open("https://selfregistration.cowin.gov.in/", "_blank") ;
     }
-    
+
     var clearIterval;
 
     $scope.fetchSlotsData = function(){
