@@ -15,16 +15,15 @@
 
         <md-input-container >
           <label>Select District</label>
-          <md-select ng-model="local.selectedDistrict" ng-disabled="!local.selectedState || options.loadingDistricts">
+          <md-select ng-model="local.selectedDistrict" ng-disabled="!local.selectedState || options.loadingDistricts" ng-change="fetchSlotsData();">
             <md-option  ng-repeat="d in metaData.districts" ng-value="{{d}}">
               {{d.district_name}}
             </md-option>
           </md-select>
         </md-input-container>
-        <div class="actions">
+        <!-- <div class="actions">
 	        <md-button class="md-raised md-primary" ng-disabled="!local.selectedState || !local.selectedDistrict" ng-click="fetchSlotsData();">Submit</md-button>
-	       <!--  <md-button class="md-raised md-accent" ng-if="local.selectedState && local.selectedDistrict" ng-click="subscribe();">Subscribe</md-button> -->
-	    </div>
+	    </div> -->
 	</div>
 	<!-- <div class="subscription-message"  ng-if="local.selectedState && local.selectedDistrict" >
 		<span>Get alerts when any slot is opened in your district.</span>
