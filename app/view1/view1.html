@@ -1,13 +1,12 @@
 <div class="container-main" layout='column' layout-align="center center">
 	<div class="header">
-		CoWIN Vaccine Slot Notifier
+		CoWIN Vaccine Slot Auto-Refresh
 	</div>
-	<div class="description" layout='row' layout-align="center center">Search for your nearest vaccination center using State and District Names</div>
+	<div class="description" layout='row' layout-align="center center">Search for your nearest vaccination center using State and District Names (only for 18+ age). It will automatically refresh the latest data every minute for selected district.</div>
 	<div class="filters" layout='row' layout-xs="column" layout-align="center center">
 		<md-input-container>
           <label>Select State</label>
           <md-select ng-model="local.selectedState" ng-change="selectState();">
-            <md-option><em>None</em></md-option>
             <md-option  ng-repeat="state in metaData.states" ng-value="{{state.state_id}}" >
               {{state.state_name}}
             </md-option>
@@ -17,43 +16,63 @@
         <md-input-container >
           <label>Select District</label>
           <md-select ng-model="local.selectedDistrict" ng-disabled="!local.selectedState || options.loadingDistricts">
-            <md-option><em>None</em></md-option>
-            <md-option  ng-repeat="d in metaData.districts.districts" ng-value="{{d.district_id}}">
+            <md-option  ng-repeat="d in metaData.districts.districts" ng-value="{{d}}">
               {{d.district_name}}
             </md-option>
           </md-select>
         </md-input-container>
         <div class="actions">
 	        <md-button class="md-raised md-primary" ng-disabled="!local.selectedState || !local.selectedDistrict" ng-click="fetchSlotsData();">Submit</md-button>
-	        <md-button class="md-raised md-accent" ng-if="local.selectedState && local.selectedDistrict" ng-click="subscribe();">Subscribe</md-button>
+	       <!--  <md-button class="md-raised md-accent" ng-if="local.selectedState && local.selectedDistrict" ng-click="subscribe();">Subscribe</md-button> -->
 	    </div>
 	</div>
+	<!-- <div class="subscription-message"  ng-if="local.selectedState && local.selectedDistrict" >
+		<span>Get alerts when any slot is opened in your district.</span>
+		<md-button class="md-raised md-warn"  ng-click="enableNotification();">Subscribe</md-button>
+	</div> -->
+	<div class="table-data md-whiteframe-z1" ng-if="dataToShow && !loadingData">
+		<div class="last-time" layout="row" layout-align="space-between center">
+			<h2 class="title" layout="column">
+				<span>Slots Information for {{local.selectedDistrict.district_name}}</span>
+				<span class="status">
+					<div class="badge-wrapper" layout="column">
+					  <span ng-if="dataToShow && dataToShow.length > 0" class="badge">Available</span>
+					  <span class="link" ng-click="goToCowin();" ng-if="dataToShow && dataToShow.length > 0">Book your slot now on CoWIN site</span>
+					  <span ng-show="!dataToShow || dataToShow.length == 0" class="badge badge-not">Not available</span>
+					</div>
+				</span>
+			</h2>
+			<div class="time-info" layout="column">
+				<strong>Last updated on {{lastDataFetchedString}}</strong>
+				<span> Next Refresh in {{secondsGap}} seconds</span>
+				<span class="link" ng-click="fetchSlotsData();" ng-if="dataToShow && dataToShow.length > 0">Refresh Now</span>
+			</div>
+		</div>
+		<mdt-table ng-if="dataToShow && dataToShow.length > 0"> 
+			<mdt-header-row >
+		      <mdt-column align-rule="left"><span>Date</span></mdt-column>
+		      <mdt-column align-rule="right"><span>No of Vaccine Centers</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Available Centers</span></mdt-column>
+		      <mdt-column align-rule="right"><span>Slots availability</span></mdt-column>
 
-	<div class="table-data">
-		<mdt-table table-card="{title: 'Nutritions'}" > 
-			<mdt-header-row>
-		      <mdt-column align-rule="left"><span>Dessert (100g serving)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Calories</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Fat (g)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Carbs (g)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Protein (g)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Sodium (mg)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Calcium (%)</span></mdt-column>
-		      <mdt-column align-rule="right"><span>Iron (%)</span></mdt-column>
 		    </mdt-header-row>
 
 		    <mdt-row 
-             ng-repeat="nutrition in nutritionList"
-             table-row-id="nutrition.id">
-		      <mdt-cell><span>{{nutrition.name}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.calories}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.fat}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.carbs}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.protein}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.sodium}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.calcium}}</span></mdt-cell>
-		      <mdt-cell><span>{{nutrition.iron}}</span></mdt-cell>
+             ng-repeat="rowData in dataToShow"
+             table-row-id="key">
+		      <mdt-cell><span>{{rowData.date}}</span></mdt-cell>
+		      <mdt-cell><span>{{rowData.centers}}</span></mdt-cell>
+		      <mdt-cell><span>{{rowData.available_centers}}</span></mdt-cell>
+		      <mdt-cell ><span>{{rowData.shots}}</span></mdt-cell>
 		    </mdt-row>
 	  	</mdt-table>
+
+	  	<div class="no-slots" ng-show="!dataToShow || dataToShow.length == 0">
+	  		No Vaccine slots currrently open for your district.&nbsp; 
+	       <span class="link" ng-click="fetchSlotsData();">Refresh Now</span>
+	  	</div>
+	</div>
+	<div class="loader" ng-if="loadingData">
+		<md-progress-circular md-diameter="40px"></md-progress-circular>
 	</div>
 </div>

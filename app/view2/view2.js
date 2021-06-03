@@ -23,11 +23,19 @@ angular.module('myApp.view2', ['ngRoute'])
   	navigator.serviceWorker.register('sw.js');
 
   	$scope.givenotification = function(){
-  		var img = 'https://s3.amazonaws.com/orange_public_production/AAbWUOz/assets/f_AAbWSea.png';
-		var text = 'HEY! Your task is now overdue.';
+  		var options = {
+  			actions: [
+			    {
+			        action: 'book',
+			        title: 'Book Now',
+			        icon: '/demos/notification-examples/images/action-1-128x128.png'
+			    }
+			]
+
+  		}
 
 		navigator.serviceWorker.ready.then(function(registration) {
-	      	registration.showNotification('Notification with ServiceWorker');
+	      	registration.showNotification('Notification with ServiceWorker', options);
 	    });
 		// var notification = new Notification('To do list', { body: text, icon: img });
 

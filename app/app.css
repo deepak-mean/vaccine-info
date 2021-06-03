@@ -2,6 +2,43 @@
   padding: 5rem;
 }
 
+.table-data {
+  width: 90%;
+  position: relative;
+  /*border: 1px solid rgba(0, 0, 0, 0.4);*/
+  /*padding: 1rem;*/
+}
+
+.mdt-header {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.leftAlignedColumn {
+  font-weight: bold;
+}
+
+.last-time {
+  /*position: absolute;*/
+  /*top:1rem;
+  right: 1rem;*/
+  font-size: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  /*z-index: 10;*/
+}
+
+.last-time .title {
+  max-width: 300px;
+  margin: 0;
+  margin-right: 1rem;
+}
+
+.mdtTable th {
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .header {
   position: absolute;
   width: 100%;
@@ -23,4 +60,42 @@
 .description {
   padding: 1rem;
   font-weight: bold;
+  text-align: center;
+}
+
+.link {
+  color: #2196f3;
+  cursor: pointer;
+}
+
+.no-slots{
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+
+.badge {
+    display: inline-block;
+    min-width: .5rem; /* rem unit */
+    padding: 0 1rem; /* rem unit */
+    border-radius: 10px;
+    font-size: 12px;
+    text-align: center;
+    background: rgb(102, 187, 106);
+    color: #fefefe;
+    width: 50px;
+}
+
+.badge-not {
+  width: 90px;
+  background: rgb(239, 83, 80);
+}
+
+.badge-wrapper .link {
+  font-size: 11px;
+  margin-top: 5px;
+  margin-left: 5px;
 }
