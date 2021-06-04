@@ -258,7 +258,7 @@ angular.module('myApp.list', ['ngRoute'])
         fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));
         clearIterval = $interval(function(){
             fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));   
-        },1000*60*100)
+        },1000*60*1)
     }
 
     
@@ -359,8 +359,8 @@ angular.module('myApp.list', ['ngRoute'])
 
 
 	// // fetchData();
-    $scope.local.selectedDistrict = { district_id : 10};
-    $scope.fetchSlotsData();
+    // $scope.local.selectedDistrict = { district_id : 10};
+    // $scope.fetchSlotsData();
 	// var clearIterval = $interval(function(){
  //        $scope.local.selectedDistrict = 192;
  //        $scope.fetchSlotsData()
