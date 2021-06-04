@@ -46,7 +46,7 @@ angular.module('myApp.list', ['ngRoute'])
                 	data.centers.forEach(function(center){
                 		if(center && center.sessions.length> 0){
                 			center.sessions.forEach(function(session){
-                				if(session && session.min_age_limit && session.min_age_limit == 18 ){
+                				if(session && session.min_age_limit){
                 					var date = session.date;
 
                 					var obj = {
@@ -68,15 +68,34 @@ angular.module('myApp.list', ['ngRoute'])
                 							centers : 0,
                 							shots:0,
                 							data : [],
+                                            shots_18: 0,
+                                            shots_45: 0,
+                                            shots_dose1: 0,
+                                            shots_dose2: 0,
                                             available_centers: 0
                 						};
                 					}
                 					$scope.data[date].centers++;
+                                    var slotsAll = 0;
                                     if(session.available_capacity_dose1 || session.available_capacity_dose2){
                                         $scope.data[date].available_centers++;
                                         obj.availibility = true;
+                                        if(session.available_capacity_dose1){
+                                            $scope.data[date].shots_dose1 += session.available_capacity_dose1;
+                                            slotsAll += session.available_capacity_dose1;
+                                        }
+                                        if(session.available_capacity_dose2){
+                                            $scope.data[date].shots_dose2 += session.available_capacity_dose2;
+                                            slotsAll += session.available_capacity_dose2;
+                                        }
+                                        if(session.min_age_limit == 18){
+                                            $scope.data[date].shots_18 += slotsAll;
+                                        }
+                                        if(session.min_age_limit == 45){
+                                            $scope.data[date].shots_45 += slotsAll;
+                                        }
                                     }
-                					$scope.data[date].shots += (session.available_capacity_dose1 || 0) + (session.available_capacity_dose2 || 0);
+                					$scope.data[date].shots += slotsAll;
                 					$scope.data[date].data.push(obj);
                 				}
                 			})
@@ -130,37 +149,38 @@ angular.module('myApp.list', ['ngRoute'])
         if($scope.data && Object.keys($scope.data).length > 0){
             for(var key in $scope.data){
                 var dataObj = $scope.data[key];
-                var finalObj = {};
-                finalObj = {
-                    centers : 0,
-                    shots:0,
-                    data : [],
-                    available_centers: 0,
-                    date: key
-                };
-                if(dataObj.data && dataObj.data.length > 0){
-                    dataObj.data.forEach(function(center){
-                        var obj = {
-                            name : center.name,
-                            address: center.address + ", " + center.block_name + "-" + center.pincode,
-                            vaccine: center.vaccine,
-                            available_capacity : center.available_capacity,
-                            available_capacity_dose1: center.available_capacity_dose1,
-                            available_capacity_dose2: center.available_capacity_dose2,
-                            slots: center.slots,
-                            date : key
-                        }
+                var finalObj = JSON.parse(JSON.stringify(dataObj));
+                finalObj["date"] = key;
+                // finalObj = {
+                //     centers : 0,
+                //     shots:0,
+                //     data : [],
+                //     available_centers: 0,
+                //     date: key
+                // };
+                // if(dataObj.data && dataObj.data.length > 0){
+                //     dataObj.data.forEach(function(center){
+                //         var obj = {
+                //             name : center.name,
+                //             address: center.address + ", " + center.block_name + "-" + center.pincode,
+                //             vaccine: center.vaccine,
+                //             available_capacity : center.available_capacity,
+                //             available_capacity_dose1: center.available_capacity_dose1,
+                //             available_capacity_dose2: center.available_capacity_dose2,
+                //             slots: center.slots,
+                //             date : key
+                //         }
                         
                         
-                        finalObj.centers++;
-                        if(center.available_capacity_dose1 || center.available_capacity_dose2){
-                            finalObj.available_centers++;
-                        }
-                        finalObj.shots += (center.available_capacity_dose1 || 0) + (center.available_capacity_dose2 || 0);
-                        finalObj.data.push(obj);
+                //         finalObj.centers++;
+                //         if(center.available_capacity_dose1 || center.available_capacity_dose2){
+                //             finalObj.available_centers++;
+                //         }
+                //         finalObj.shots += (center.available_capacity_dose1 || 0) + (center.available_capacity_dose2 || 0);
+                //         finalObj.data.push(obj);
 
-                    });
-                }
+                //     });
+                // }
 
                 if(finalObj.shots > 0){
 
@@ -238,7 +258,7 @@ angular.module('myApp.list', ['ngRoute'])
         fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));
         clearIterval = $interval(function(){
             fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));   
-        },1000*60*1)
+        },1000*60*100)
     }
 
     
@@ -338,9 +358,9 @@ angular.module('myApp.list', ['ngRoute'])
 
 
 
-	// fetchData();
-    // $scope.local.selectedDistrict = { district_id : 10};
-    // $scope.fetchSlotsData();
+	// // fetchData();
+    $scope.local.selectedDistrict = { district_id : 10};
+    $scope.fetchSlotsData();
 	// var clearIterval = $interval(function(){
  //        $scope.local.selectedDistrict = 192;
  //        $scope.fetchSlotsData()

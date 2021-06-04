@@ -70,10 +70,11 @@
         	md-gutter="12px" md-gutter-gt-sm="8px" >
 
 		    <md-grid-tile class="gray" ng-repeat="rowData in dataToShow" >
-	    	 	<md-grid-tile-header>
+	    	<!--  	<md-grid-tile-header>
 				    <h3>{{rowData.date}}</h3>
-			  	</md-grid-tile-header>
-			  	<div class="tile-content" layout="column" layout-align="space-around start">
+			  	</md-grid-tile-header> -->
+			  	<div class="tile-content" layout="column" layout-align="start start">
+			  		<h3>{{rowData.date}}</h3>
 			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
 			  			<div class="label">Total Centers</div>
 			  			<div class="value">{{rowData.centers}}</div>
@@ -83,14 +84,35 @@
 			  			<div class="value">{{rowData.available_centers}}</div>
 			  		</div>
 			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
-			  			<div class="label">Vaccine Slots available</div>
+			  			<div class="label">Slots</div>
 			  			<div class="value">{{rowData.shots}}</div>
+			  		</div>
+			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
+		  				<div class="nested-row slot_18" layout="row" layout-align="space-between center">
+				  			<div class="label">18+ Slots:</div>
+				  			<div class="value">{{rowData.shots_18}}</div>
+				  		</div>
+				  		<div class="nested-row slot_45" layout="row" layout-align="space-between center">
+				  			<div class="label">45+ Slots:</div>
+				  			<div class="value">{{rowData.shots_45}}</div>
+				  		</div>
+			  			
+			  		</div>
+			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
+		  				<div class="nested-row dose_1" layout="row" layout-align="space-between center">
+				  			<div class="label">Dose 1:</div>
+				  			<div class="value">{{rowData.shots_dose1}}</div>
+				  		</div>
+				  		<div class="nested-row dose_2" layout="row" layout-align="space-between center">
+				  			<div class="label">Dose 2:</div>
+				  			<div class="value">{{rowData.shots_dose2}}</div>
+				  		</div>
 			  		</div>
 
 			  	</div>
-		      	<md-grid-tile-footer>
+		      	<!-- <md-grid-tile-footer>
 		        	<h3 ng-click="goToCowin();">Book on CoWIN</h3>
-		      	</md-grid-tile-footer>
+		      	</md-grid-tile-footer> -->
 		    </md-grid-tile>
 
 		    
