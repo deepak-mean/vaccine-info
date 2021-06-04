@@ -339,7 +339,7 @@ angular.module('myApp.list', ['ngRoute'])
 
 
 	// fetchData();
-    // $scope.local.selectedDistrict = 200;
+    // $scope.local.selectedDistrict = { district_id : 10};
     // $scope.fetchSlotsData();
 	// var clearIterval = $interval(function(){
  //        $scope.local.selectedDistrict = 192;

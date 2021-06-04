@@ -1,9 +1,7 @@
 <div class="container-main" layout='column' layout-align="center center">
-	<div class="header">
-		CoWIN Vaccine Slot Auto-Refresh
-	</div>
+	
 	<div class="description" layout='row' layout-align="center center">Search for your nearest vaccination center using State and District Names (only for 18+ age). It will automatically refresh the latest data every minute for selected district.</div>
-	<div class="filters" layout='row' layout-xs="column" layout-align="center center">
+	<div class="filters" layout='row' layout-xs="column"  layout-align="center center">
 		<md-input-container>
           <label>Select State</label>
           <md-select ng-model="local.selectedState" ng-change="selectState();">
@@ -30,11 +28,11 @@
 		<md-button class="md-raised md-warn"  ng-click="enableNotification();">Subscribe</md-button>
 	</div> -->
 	<div class="table-data md-whiteframe-z1" ng-if="dataToShow && !loadingData">
-		<div class="last-time" layout="row" layout-align="space-between center">
+		<div class="last-time" layout="row" layout-align="space-between center" layout-xs="column" layout-align-xs="center start">
 			<h2 class="title" layout="column">
 				<span>Slots Information for {{local.selectedDistrict.district_name}}</span>
 				<span class="status">
-					<div class="badge-wrapper" layout="column">
+					<div class="badge-wrapper" layout="row" layout-align="space-between center">
 					  <span ng-if="dataToShow && dataToShow.length > 0" class="badge">Available</span>
 					  <span class="link" ng-click="goToCowin();" ng-if="dataToShow && dataToShow.length > 0">Book your slot now on CoWIN site</span>
 					  <span ng-show="!dataToShow || dataToShow.length == 0" class="badge badge-not">Not available</span>
@@ -47,7 +45,7 @@
 				<span class="link" ng-click="fetchSlotsData();" ng-if="dataToShow && dataToShow.length > 0">Refresh Now</span>
 			</div>
 		</div>
-		<mdt-table ng-if="dataToShow && dataToShow.length > 0"> 
+		<mdt-table ng-if="dataToShow && dataToShow.length > 0" style="display: none;"> 
 			<mdt-header-row >
 		      <mdt-column align-rule="left"><span>Date</span></mdt-column>
 		      <mdt-column align-rule="right"><span>No of Vaccine Centers</span></mdt-column>
@@ -66,6 +64,39 @@
 		    </mdt-row>
 	  	</mdt-table>
 
+	  	<md-grid-list ng-if="dataToShow && dataToShow.length > 0"
+        	md-cols-xs="1" md-cols-sm="2" md-cols-gt-sm="4" 
+        	md-row-height-gt-md="1:1" md-row-height="2:2"
+        	md-gutter="12px" md-gutter-gt-sm="8px" >
+
+		    <md-grid-tile class="gray" ng-repeat="rowData in dataToShow" >
+	    	 	<md-grid-tile-header>
+				    <h3>{{rowData.date}}</h3>
+			  	</md-grid-tile-header>
+			  	<div class="tile-content" layout="column" layout-align="space-around start">
+			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
+			  			<div class="label">Total Centers</div>
+			  			<div class="value">{{rowData.centers}}</div>
+			  		</div>
+			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
+			  			<div class="label">Available Centers</div>
+			  			<div class="value">{{rowData.available_centers}}</div>
+			  		</div>
+			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
+			  			<div class="label">Vaccine Slots available</div>
+			  			<div class="value">{{rowData.shots}}</div>
+			  		</div>
+
+			  	</div>
+		      	<md-grid-tile-footer>
+		        	<h3 ng-click="goToCowin();">Book on CoWIN</h3>
+		      	</md-grid-tile-footer>
+		    </md-grid-tile>
+
+		    
+		</md-grid-list>
+
+
 	  	<div class="no-slots" ng-show="!dataToShow || dataToShow.length == 0">
 	  		No Vaccine slots currrently open for your district.&nbsp; 
 	       <span class="link" ng-click="fetchSlotsData();">Refresh Now</span>
@@ -74,4 +105,6 @@
 	<div class="loader" ng-if="loadingData">
 		<md-progress-circular md-diameter="40px"></md-progress-circular>
 	</div>
+
 </div>
+
