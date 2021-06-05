@@ -84,31 +84,49 @@
 			  			<div class="value">{{rowData.available_centers}}</div>
 			  		</div>
 			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
-			  			<div class="label">Slots</div>
+			  			<div class="label">Available Slots</div>
 			  			<div class="value">{{rowData.shots}}</div>
 			  		</div>
 			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
-		  				<div class="nested-row slot_18" layout="row" layout-align="space-between center">
-				  			<div class="label">18+ Slots:</div>
-				  			<div class="value">{{rowData.shots_18}}</div>
+		  				<div class="nested-row slot_18" layout="row" layout-align="space-between center" ng-class="{'minute' : (rowData.COVISHIELD && rowData.COVISHIELD <= 25),'partial' : rowData.COVISHIELD > 25 && rowData.COVISHIELD <= 50, 'average' : rowData.COVISHIELD > 50 && rowData.COVISHIELD < 100, 'full' : rowData.COVISHIELD >= 100}">
+				  			<div class="label">COVISHIELD:</div>
+				  			<div class="value">{{rowData.COVISHIELD || 0}}</div>
 				  		</div>
-				  		<div class="nested-row slot_45" layout="row" layout-align="space-between center">
-				  			<div class="label">45+ Slots:</div>
-				  			<div class="value">{{rowData.shots_45}}</div>
+				  		<div class="nested-row slot_45" layout="row" layout-align="space-between center" ng-class="{'minute' : ( rowData.COVAXIN && rowData.COVAXIN <= 25),'partial' : rowData.COVAXIN > 25 && rowData.COVAXIN <= 50, 'average' : rowData.COVAXIN > 50 && rowData.COVAXIN < 100, 'full' : rowData.COVAXIN >= 100}">
+				  			<div class="label">COVAXIN:</div>
+				  			<div class="value">{{rowData.COVAXIN || 0}}</div>
 				  		</div>
 			  			
 			  		</div>
-			  		<div class="tile-content-row" layout="row" layout-align="space-between center">
-		  				<div class="nested-row dose_1" layout="row" layout-align="space-between center">
-				  			<div class="label">Dose 1:</div>
-				  			<div class="value">{{rowData.shots_dose1}}</div>
+			  		<div class="tile-content-row nested" layout="row" layout-align="space-between center">
+		  				<div  layout="column" class="age-item" flex="50">
+			  				<div class="age-heading">Age 18-44</div>
+		  					<div class="nested-row" ng-class="{'minute' : (rowData.shots_18_dose1 && rowData.shots_18_dose1 <= 25),'partial' : rowData.shots_18_dose1 > 25 && rowData.shots_18_dose1 <= 50, 'average' : rowData.shots_18_dose1 > 50 && rowData.shots_18_dose1 < 100, 'full' : rowData.shots_18_dose1 >= 100}">
+		  						<div class="label">Dose 1:</div>
+				  				<div class="value">{{rowData.shots_18_dose1}}</div>
+		  					</div>
+				  			<div class="nested-row" ng-class="{'minute' : (rowData.shots_18_dose2 && rowData.shots_18_dose2 <= 25),'partial' : rowData.shots_18_dose2 > 25 && rowData.shots_18_dose2 <= 50, 'average' : rowData.shots_18_dose2 > 50 && rowData.shots_18_dose2 < 100, 'full' : rowData.shots_18_dose2 >= 100}">
+					  			<div class="label">Dose 2:</div>
+					  			<div class="value">{{rowData.shots_18_dose2}}</div>
+					  		</div>
 				  		</div>
-				  		<div class="nested-row dose_2" layout="row" layout-align="space-between center">
-				  			<div class="label">Dose 2:</div>
-				  			<div class="value">{{rowData.shots_dose2}}</div>
+				  		
+				  		<div layout="column" class="age-item" flex="50">
+			  				<div class="age-heading">Age 45+</div>
+		  					<div class="nested-row" ng-class="{'minute' : (rowData.shots_45_dose1 && rowData.shots_45_dose1 <= 25),'partial' : rowData.shots_45_dose1 > 25 && rowData.shots_45_dose1 <= 50, 'average' : rowData.shots_45_dose1 > 50 && rowData.shots_45_dose1 < 100, 'full' : rowData.shots_45_dose1 >= 100}">
+		  						<div class="label">Dose 1:</div>
+				  				<div class="value">{{rowData.shots_45_dose1}}</div>
+		  					</div>
+				  			<div class="nested-row" ng-class="{'minute' : (rowData.shots_45_dose2 && rowData.shots_45_dose2 <= 25),'partial' : rowData.shots_45_dose2 > 25 && rowData.shots_45_dose2 <= 50, 'average' : rowData.shots_45_dose2 > 50 && rowData.shots_45_dose2 < 100, 'full' : rowData.shots_45_dose2 >= 100}">
+					  			<div class="label">Dose 2:</div>
+					  			<div class="value">{{rowData.shots_45_dose2}}</div>
+					  		</div>
 				  		</div>
 			  		</div>
-
+			  		<div class="tile-content-row actions" layout="row">
+			  			<div class="action link">View Centers Details</div>
+			  			<div class="action link" ng-click="goToCowin()">Book on CoWIN</div>
+			  		</div>
 			  	</div>
 		      	<!-- <md-grid-tile-footer>
 		        	<h3 ng-click="goToCowin();">Book on CoWIN</h3>

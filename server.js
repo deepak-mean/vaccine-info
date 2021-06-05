@@ -10,7 +10,7 @@ const multipart = require('connect-multiparty');// const fast2sms = require('fas
 const moment = require('moment');
 require('dotenv').config();
 const dbConnection = require("./modules/db");
-dbConnection.initializeConnection();
+// dbConnection.initializeConnection();
 const userService = require("./modules/users/userService");
 const app = express();
 

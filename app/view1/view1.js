@@ -72,9 +72,14 @@ angular.module('myApp.list', ['ngRoute'])
                                             shots_45: 0,
                                             shots_dose1: 0,
                                             shots_dose2: 0,
+                                            shots_18_dose1: 0,
+                                            shots_18_dose2: 0,
+                                            shots_45_dose1: 0,
+                                            shots_45_dose2: 0,
                                             available_centers: 0
                 						};
                 					}
+
                 					$scope.data[date].centers++;
                                     var slotsAll = 0;
                                     if(session.available_capacity_dose1 || session.available_capacity_dose2){
@@ -90,11 +95,20 @@ angular.module('myApp.list', ['ngRoute'])
                                         }
                                         if(session.min_age_limit == 18){
                                             $scope.data[date].shots_18 += slotsAll;
+                                            $scope.data[date].shots_18_dose1 += session.available_capacity_dose1 || 0;
+                                            $scope.data[date].shots_18_dose2 += session.available_capacity_dose2 || 0;
+
                                         }
                                         if(session.min_age_limit == 45){
                                             $scope.data[date].shots_45 += slotsAll;
+                                            $scope.data[date].shots_45_dose1 += session.available_capacity_dose1 || 0;
+                                            $scope.data[date].shots_45_dose2 += session.available_capacity_dose2 || 0;
                                         }
                                     }
+                                    if(!$scope.data[date][session.vaccine]){
+                                        $scope.data[date][session.vaccine] = 0;
+                                    }
+                                    $scope.data[date][session.vaccine]  += slotsAll;
                 					$scope.data[date].shots += slotsAll;
                 					$scope.data[date].data.push(obj);
                 				}
@@ -258,7 +272,7 @@ angular.module('myApp.list', ['ngRoute'])
         fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));
         clearIterval = $interval(function(){
             fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));   
-        },1000*60*1)
+        },1000*60*1000)
     }
 
     
@@ -359,8 +373,8 @@ angular.module('myApp.list', ['ngRoute'])
 
 
 	// // fetchData();
-    // $scope.local.selectedDistrict = { district_id : 10};
-    // $scope.fetchSlotsData();
+    $scope.local.selectedDistrict = { district_id : 10};
+    $scope.fetchSlotsData();
 	// var clearIterval = $interval(function(){
  //        $scope.local.selectedDistrict = 192;
  //        $scope.fetchSlotsData()

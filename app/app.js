@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and core components
 angular.module('myApp', [
   'ngRoute',
-  'ngMaterial', 'ngMessages', 'mdDataTable',
+  'ngMaterial', 'ngMessages',
   'myApp.list',
   'myApp.view2',
   'myApp.version'
