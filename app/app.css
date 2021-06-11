@@ -31,7 +31,7 @@ body {
   font-size: 1.2rem;
 }
 .container-main {
-  /*padding: 5rem;*/
+  padding-bottom:  5rem;
 }
 
 .table-data {
@@ -101,7 +101,7 @@ body {
 .badge {
     display: inline-block;
     min-width: .5rem; /* rem unit */
-    padding: 0 1rem; /* rem unit */
+    padding: 5px 1rem; /* rem unit */
     border-radius: 10px;
     font-size: 12px;
     text-align: center;
@@ -160,8 +160,9 @@ md-grid-list {
 .nested-row{
   margin: 2px 0px;
   padding: 2px 7px;
-  background: grey;
-  color: white;
+  /*background: grey;*/
+  /*color: white;*/
+  border: 1px solid rgba(128, 128, 128, 0.18);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   width: 49%;
@@ -191,31 +192,74 @@ md-grid-list {
   color: darkslategrey;
 }
 
+
+
 .nested .nested-row {
   /*width: auto;*/
   display: flex;
   flex-direction: row;
   margin: 5px;
   width: 60%;
+
   justify-content: space-between;
   padding: 5px 10px;
   border-radius: 15px;
 }
-
-
-.nested-row.minute {
-  background: rgba(255, 0, 0, 0.78);
+.list-row {
+  border: 1px solid grey;
+  padding: 5px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
 }
 
-.nested-row.partial {
-  background: orange;
+.list-column.name{
+  font-weight: bold;
 }
 
-.nested-row.average {
-  background: mediumseagreen;
+.list-column.address{
+  font-size: 13px;
+    color: grey;
+    padding: 5px 0;
+    word-break: break-word;
 }
-.nested-row.full {
-  background:  #4B881C;
+
+.list-column.vaccine{
+  font-weight: bold;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.list-column.dose{
+  display: inline-block;
+  width: 46%;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid grey;
+  margin-left: 1%;
+  border-radius: 10px;
+  padding: 3px 0px;
+  color: #ff5454;
+}
+
+.nested .nested-row, .nested .nested-row .label {
+  color : #ff5454;
+  background: white;
+
+}
+
+.nested-row.minute, .nested-row.minute .label {
+  color: darkred;
+}
+
+.nested-row.partial, .nested-row.partial .label {
+  color: rgb(255, 157, 0);
+}
+
+.nested-row.average, .nested-row.average .label {
+  color: rgba(55, 165, 55, 0.8117647058823529);
+}
+.nested-row.full, .nested-row.full .label {
+  color:  darkgreen;
 }
 .nested-row .label {
     color: white;
@@ -228,6 +272,8 @@ md-grid-list {
   text-align: center;
 }
 
+
+
 /*.nested-row .label {
     color: white;
     margin-right: 5px;
@@ -235,19 +281,32 @@ md-grid-list {
 
 
 
+
+
+.center-address {
+  margin-top: 48px;
+}
+
+.center-doses {
+  position: absolute;
+  bottom: 25px;
+}
+
 md-grid-list md-grid-tile {
   border: 1px solid black;
 }
 
 
 md-grid-tile-header {
-  background: rgba(39,39,39,0.8)!important;
+  background: rgb(54, 54, 72)!important;
   justify-content: center;
 }
 
 md-grid-tile-footer {
   background: #2196f3!important;
   justify-content: center;
+  cursor: pointer;
+  height: auto!important;
 }
 
 md-grid-list md-grid-tile md-grid-tile-footer h3, md-grid-list md-grid-tile md-grid-tile-header h3 {
@@ -259,6 +318,13 @@ md-grid-tile-footer h3 {
   cursor: pointer;
 }
 
+.md-dialog-content {
+  padding: 10px;
+}
+
+.md-dialog-content md-grid-list {
+  margin: 10px 0;
+}
 .time-info .link {
   padding: 5px 10px;
   font-size: 14px;
@@ -313,4 +379,8 @@ md-grid-tile-footer h3 {
     width: 60%;
     padding: 5px 10px;
   }
+}
+
+.center-list {
+  min-width: 80%;
 }

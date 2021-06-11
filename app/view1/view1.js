@@ -368,13 +368,38 @@ angular.module('myApp.list', ['ngRoute'])
         }
     }
 
+    $scope.showCenterDetails = function (ev, rowData) {
+        $scope.selectedDateData = rowData;
+        $scope.selectedDateData.availableCenters = $scope.selectedDateData.data.filter(function(row){
+            return row && ( row.available_capacity_dose1 || row.available_capacity_dose2);
+        })
+        console.log($scope.selectedDateData);
+        $mdDialog.show({
+            scope: $scope,
+            preserveScope: true,
+            templateUrl: 'view1/centers-list.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+        }).then(function (answer) {
+            $scope.selectedDateData = null;
+            $scope.status = 'You said the information was "' + answer + '".';
+        }, function () {
+            $scope.selectedDateData = null;
+            $scope.status = 'You cancelled the dialog.';
+        });
+    };
+
+    $scope.answer = function(){
+        $mdDialog.hide();
+    }
+
     fetchStates();
 
 
 
-	// // fetchData();
-    // $scope.local.selectedDistrict = { district_id : 10};
-    // $scope.fetchSlotsData();
+    // $scope.local.selectedDistrict = { district_id : 11, name : "Chittor"};
+    // fetchData($scope.local.selectedDistrict.district_id, moment().format('DD-MM-YYYY'));
 	// var clearIterval = $interval(function(){
  //        $scope.local.selectedDistrict = 192;
  //        $scope.fetchSlotsData()

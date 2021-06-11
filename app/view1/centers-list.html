@@ -1,0 +1,32 @@
+<md-dialog class="center-list" aria-label="Centers">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Vaccine Centers - {{local.selectedDistrict.name}} ({{selectedDateData.date}})</h2>
+        
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      	<div class="md-dialog-content">
+        	<strong>Total Centers : {{selectedDateData.availableCenters.length}}</strong>
+			<md-grid-list ng-if="selectedDateData.data && selectedDateData.data.length > 0"
+	        	md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="5" 
+	        	md-row-height-gt-md="1:1" md-row-height="2:2"
+	        	md-gutter="12px" md-gutter-gt-sm="8px" >
+				<div class=" list-row"  ng-repeat="center in selectedDateData.availableCenters" >
+					<div class="list-column  name">{{center.name}}</div>
+					<div class="list-column  address">{{center.address}}</div>
+					<div class="list-column  vaccine">{{center.vaccine}}</div>
+					<div class="list-column nested-row dose" ng-class="{'minute' : (center.available_capacity_dose1 && center.available_capacity_dose1 <= 25),'partial' : center.available_capacity_dose1 > 25 && center.available_capacity_dose1 <= 50, 'average' : center.available_capacity_dose1 > 50 && center.available_capacity_dose1 < 100, 'full' : center.available_capacity_dose1 >= 100}">Dose 1: {{center.available_capacity_dose1}}</div>
+
+					<div class="list-column nested-row dose" ng-class="{'minute' : (center.available_capacity_dose2 && center.available_capacity_dose2 <= 25),'partial' : center.available_capacity_dose2 > 25 && center.available_capacity_dose2 <= 50, 'average' : center.available_capacity_dose2 > 50 && center.available_capacity_dose2 < 100, 'full' : center.available_capacity_dose2 >= 100}">Dose 2: {{center.available_capacity_dose2}}</div>
+
+				</div>
+			</md-grid-list>
+      	</div>
+    </md-dialog-content>
+
+   
+  </form>
+</md-dialog>
