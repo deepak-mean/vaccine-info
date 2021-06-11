@@ -382,5 +382,5 @@ md-grid-tile-footer h3 {
 }
 
 .center-list {
-  min-width: 80%;
+  max-width: 500px;
 }
